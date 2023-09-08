@@ -17,13 +17,19 @@ class Partida:
   #------------------
   # Métodos
   #------------------
+
+  # Getters usando o decorador @property
+  @property
+  def get_times(self):
+      return self.mandante, self.visitante
+
   #print completo
   def print_partida(self):
     print(f'Rodada: {self.rodada}, Mandante: {self.mandante}, Visitante: {self.visitante}, Placar: {self.placar}, Vencedor: {self.vencedor}, Estadio: {self.estadio},Estado Vistante: {self.visitante_estado}, Ano:{self.ano}' )
 
   #print resumido
   def show(self):
-    print(f'Rodada: {self.rodada:02}, Mandante: {self.mandante},Visitante: {self.visitante}, Vencedor: {self.vencedor}, Ano:{self.ano}, Estadio: {self.estadio} ' )
+    print(f'Ano:{self.ano:04} Rodada: {self.rodada:02}, Mandante: {self.mandante:15},Visitante: {self.visitante:15}, Vencedor: {self.vencedor:15}, Estadio: {self.estadio} ' )
 
 #================================================================
 # Classe Partidas
@@ -37,7 +43,7 @@ class Partidas:
     def adicionar_partida(self, partida):
         self.partidas.append(partida)
 
-    def filtro_partidas(self, estadio=None, ano=None, mandante=None, visitante=None):
+    def get_partidas(self, estadio=None, ano=None, mandante=None, visitante=None):
         filtradas = self.partidas
         #Filtro por estádio
         if estadio is not None:
