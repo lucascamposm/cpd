@@ -80,6 +80,9 @@ def create_tries_adversarios(clubes):
 #=================================================================
 # TESTES  
 #=================================================================
+#=================
+# DIRETORIOS   
+#=================
 def teste_diretorios():
     diretorios = ['arquivos', 'adversarios', 'CSVs', 'indices_arquivos']
 
@@ -93,18 +96,21 @@ def teste_diretorios():
         else:
             print(f'Diretorio {diretorio:18} -> OK')
     return avanca_tela()
-
+#=================
+# ARQUIVOS
+#=================
 #Verifica se arquivo foi criado 
-def teste_arquivos(nome_arquivo, diretorio, nao_imprimir=None):
+def testa_arquivo(nome_arquivo, diretorio, nao_imprimir=None):
     # Caminho completo para o arquivo
     caminho_completo = os.path.join(diretorio, nome_arquivo)
 
     # Verifica se o arquivo existe
     if os.path.exists(caminho_completo):
-        if nao_imprimir is None:
+        if nao_imprimir is None: # Não nao_imprimir -> imprimir
             print(f'Arquivo {nome_arquivo:32} -> OK')
         return True 
     else:
+        print(f'Arquivo {nome_arquivo:32} -> ERRO')
         return False
     
 def testes_arquivos():
@@ -114,33 +120,39 @@ def testes_arquivos():
     # CSV RAW
     #===================
     csv_raw = "campeonato-brasileiro-full.csv"
-    if teste_arquivos(csv_raw,'CSVs') == False:
+    if testa_arquivo(csv_raw,'CSVs') == False:
         extract()
     #===================
     # CSV FINAL
     #===================
-    csv_final = "CSVs/df_final.csv"
-    if teste_arquivos(csv_final,'CSVs') == False:
-        transform
+    csv_final = "df_final.csv"
+    if testa_arquivo(csv_final,'CSVs') == False:
+        transform()
+        print_msg('Testando novamente:  ')
+        testa_arquivo(csv_final,'CSVs')
 
     #====================================
     # Arquivo Binario contendo as partidas 
     #=====================================
     bin_partidas = 'partidas.bin'
-    if teste_arquivos(bin_partidas, 'arquivos') == False:
+    if testa_arquivo(bin_partidas, 'arquivos') == False:
         df = pd.read_csv("CSVs/df_final.csv")
         cria_binarios(df)
         avanca_tela()
+        print_msg('Testando novamente:  ')
+        testa_arquivo(bin_partidas, 'arquivos')
 
 
     #==============================
     # Teste Trie de Clubes  
     #==============================
     bin_partidas = 'trie_clubes.bin'
-    if teste_arquivos(bin_partidas, 'indices_arquivos') == False:
+    if testa_arquivo(bin_partidas, 'indices_arquivos') == False:
         df = pd.read_csv("CSVs/df_final.csv")
         cria_binarios(df)
         avanca_tela()
+        print_msg('Testando novamente:  ')
+        testa_arquivo(bin_partidas, 'indices_arquivos')
 
     #===========================
     # Carregar listar de Clubes 
@@ -157,10 +169,11 @@ def testes_arquivos():
     try:
         clubes_missing_indice = []
         for clube in clubes:
-            if teste_arquivos(f'{clube}.bin', 'adversarios', True) == False:
+            if testa_arquivo(f'{clube}.bin', 'adversarios', True) == False:
                 create_tries_adversarios(clubes)
             else:
                 clubes_missing_indice.append(clube)
+                
         print(f'Arquivos de Indices para cada Clube      -> OK')
     except: 
         #Aí sim chama a função
@@ -173,13 +186,19 @@ def testes_arquivos():
     # tenta carregar a arvore de um time
     #se arvore nao existir, chama a função que gera as arvores
     try:
+        clubes_missing_tries = []
         for clube in clubes:
-            if teste_arquivos(f'{clube}.bin', 'adversarios', True) == False:
+            if testa_arquivo(f'{clube}.bin', 'adversarios', True) == False:
                 create_tries_adversarios(clubes)
+            else:
+                clubes_missing_tries.append(clube)
         print(f'Arquivos Trie Clube_Adversarios          -> OK')
     except: 
         #Aí sim chama a função
         create_tries_adversarios(clubes)
+        print_msg('Erro ao carregar indices para os clubes: ')
+        print(clubes_missing_tries)
+
 
     return avanca_tela()
 #====================================================================
@@ -224,30 +243,41 @@ def main():
     avanca_tela()
 
     #===================================================================
-    # Lista Clubes
+    # Tela -> Get Confrontos
     #==================================================================
+    continuar_buscando = True
+    while (continuar_buscando): 
+
+
+        #==============================
+        # Escolhe CLube 
+        #==============================
+        clube = tela_escolhe_um_time(arvore_clubes)
+        limpar_tela()
+        print_msg(f'Clube Escolhido -> {clube}')
+        
     
+        #==============================
+        # Escolhe Adversario 
+        #==============================
+        trie_adversarios_clube = carrega_trie(clube)
+        adversario = tela_escolhe_um_time(trie_adversarios_clube, 'Escolha um Adversario')
+        try: 
+            confrontos = get_confrontos(adversario, clube,arvore_clubes)
+            bubble_sort(confrontos) # Ordena confrontos  
+            limpar_tela()
+            print_msg(f'Resultados do Confronto: {resultados(confrontos)}')
+            print_confrontos(confrontos)
+        except:
+            limpar_tela()
+            print_msg('Erro ao buscar as partidas')
 
-    limpar_tela()
-    print_clubes(arvore_clubes)
-    
-    print("Selecione um clube")
-    clube_index = insira_tecla_continuar()
+        
+        avanca_tela()
 
 
+        continuar_buscando = print_deseja_continuar_buscando()
 
-    clubes = arvore_clubes.lista_clubes()
-    clube = clubes[int(clube_index)]
-
-
-    limpar_tela()
-    print('Escolha um Adversario: ')
-    trie_adversarios_clube = carrega_trie(clube)
-    print_clubes(trie_adversarios_clube)
-
-    
-
-    
 
 if __name__ == "__main__":
     main()

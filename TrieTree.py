@@ -1,3 +1,4 @@
+from aux_functions import * 
 #===============================
 # ARVORES TRIE 
 #===============================
@@ -123,3 +124,19 @@ class Trie:
         for char, child_node in node.children.items():
             print(indent + "└── " + char)
             self._print_trie_recursive(child_node, indent + "    ")
+
+
+    #=============================================
+    # imprime todos clubes disponiveis na tela
+    #=============================================
+    def print_clubes(self, mensagem=None):
+        clubes = self.lista_clubes()
+        if mensagem is None: 
+            print_msg(f'Clubes: ')
+        else:
+            print_msg(f'{mensagem}: ')
+        for i in range(0, len(clubes), 5):
+            for j in range(5):
+                if i + j < len(clubes):
+                    print(f"[{i + j:02}] - {clubes[i + j]:15}", end="\t")
+            print('')  # Pausa a cada grupo de 5 clubes

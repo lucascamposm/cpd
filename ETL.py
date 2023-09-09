@@ -73,7 +73,7 @@ def transform():
     #==============================================
     # Criar novas colunas 'Data' e  'Ano'
     #==============================================
-    df['data'] = pd.to_datetime(df['data'])
+    df['data'] = pd.to_datetime(df['data'], dayfirst=True)
     df['ano'] = df['data'].dt.year
 
     #==============================================
@@ -86,6 +86,7 @@ def transform():
     # Vários Estádios estão com '\xa0' no inicio
     #==============================================
     df['estadio'] = df['estadio'].str.replace('\xa0', '')
+    df['estadio'] = df['estadio'].str.replace('Estádio ', '')
 
     #==============================================================================
     # df_mandante recebe df que estava sendo trabalhado até então

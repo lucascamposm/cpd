@@ -41,14 +41,64 @@ def aux_print_linha(tamanho_linha):
     print()
 
 #=============================================
-# imprime todos clubes disponiveis na tela
+# Tela-> Escolhe um time
 #=============================================
-def print_clubes(arvore_clubes):
-    arvore_clubes
+
+def tela_escolhe_um_time(arvore_clubes, mensagem_print_trie=None):
     clubes = arvore_clubes.lista_clubes()
-    print_msg(f'Clubes: ')
-    for i in range(0, len(clubes), 5):
-        for j in range(5):
-            if i + j < len(clubes):
-                print(f"[{i + j:02}] - {clubes[i + j]:15}", end="\t")
-        print('')  # Pausa a cada grupo de 5 clubes
+
+    bool_avanca_tela = False
+    while(bool_avanca_tela == False):
+        limpar_tela()
+        arvore_clubes.print_clubes(mensagem_print_trie)
+        
+        print_msg("Selecione uma opção:")
+        clube_index = insira_tecla_continuar()
+        
+        try: 
+            type(clube_index) # tenta parsear para int, se falhar vai cair na exceção
+            clube = clubes[int(clube_index)]
+
+            if arvore_clubes.search(clube):
+                bool_avanca_tela = True
+            else:
+                limpar_tela()
+                print_msg('Opção Invalida')
+                print(f'O numero inteiro entre 0 e {len(clubes)-1}')
+                insira_tecla_continuar()
+
+        except Exception as e: 
+            limpar_tela()
+            print_msg('Opção Invalida')
+            insira_tecla_continuar()
+
+    return clube
+
+
+#=============================================
+# Imprime todos confrontos entre dois times
+#=============================================
+def print_confrontos(confrontos: ListaDePartidas):
+    counter = 0
+    print_msg('Confrontos: ')
+    for confronto in confrontos:
+        confronto.show()
+        counter +=1 
+        if counter == 10:
+            avanca_tela()
+            print_msg('Confrontos:')
+            counter = 0
+
+#=============================================
+# Tela -> Deseja Continuar Buscando?
+#=============================================
+
+def print_deseja_continuar_buscando() -> bool:
+    print_msg('Deseja Continuar Buscando?')
+    aux_deseja_buscar = input('([S] Sim [N] Não): ')
+    if aux_deseja_buscar == 'S' or aux_deseja_buscar == 's':
+        print(f'aux_deseja_buscar - {aux_deseja_buscar}')
+        continuar_buscando = True
+    else: 
+        continuar_buscando = False
+    return continuar_buscando

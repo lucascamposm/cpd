@@ -77,8 +77,23 @@ def lista_adversarios(equipe:str):
         time_a, time_b = confronto.get_times # 
         adversario = time_a if time_a != equipe else time_b
         adversarios.add(adversario)
-        
+
     return adversarios
+
+
+#================================================================
+# ESTATISTICAS
+#================================================================
+def resultados(confrontos):
+    confronto = confrontos[0] #acessar primeira partida 
+    time_a, time_b = confronto.get_times # para poder usar o metodo get_times
+    resultados = {time_a: 0, time_b: 0, 'Empate': 0}
+
+    for confronto in confrontos: 
+        vencedor = confronto.vencedor
+        resultados[vencedor] = resultados[vencedor] + 1 
+
+    return resultados
 
 
 #================================================================
