@@ -102,3 +102,18 @@ def print_deseja_continuar_buscando() -> bool:
     else: 
         continuar_buscando = False
     return continuar_buscando
+
+
+#=============================================
+# Bubble_sort
+#=============================================
+def bubble_sort(confrontos:ListaDePartidas, decrescente=None):
+    qtd_elementos = len(confrontos)
+    for i in range(qtd_elementos - 1):
+        for j in range(qtd_elementos - 1 - i):
+            if decrescente is not None:
+                if confrontos[j].ano > confrontos[j + 1].ano:
+                    confrontos[j], confrontos[j + 1] = confrontos[j + 1], confrontos[j]
+            else:
+                if confrontos[j].ano < confrontos[j + 1].ano:
+                    confrontos[j], confrontos[j + 1] = confrontos[j + 1], confrontos[j]

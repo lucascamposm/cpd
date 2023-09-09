@@ -20,7 +20,6 @@ class Partida:
   #------------------
   # Métodos
   #------------------
-
   # Getters usando o decorador @property
   @property
   def get_times(self):
@@ -35,20 +34,8 @@ class Partida:
     print(f'[ Ano:{self.ano:04} Rodada: {self.rodada:02}, Mandante: {self.mandante:15},Visitante: {self.visitante:15}, Vencedor: {self.vencedor:15}, Estadio: {self.estadio:37}    ]' )
 
 #================================================================
-# Classe Partidas
+# Classe ListaDePartidas
 #================================================================
 @dataclass
 class ListaDePartidas:
     partidas: List[Partida]
-
-
-def bubble_sort(confrontos:ListaDePartidas, decrescente=None):
-    qtd_elementos = len(confrontos)
-    for i in range(qtd_elementos - 1):
-        for j in range(qtd_elementos - 1 - i):
-            if decrescente is None:
-                if confrontos[j].ano > confrontos[j + 1].ano:
-                    confrontos[j], confrontos[j + 1] = confrontos[j + 1], confrontos[j]
-            else:
-                if confrontos[j].ano < confrontos[j + 1].ano:
-                    confrontos[j], confrontos[j + 1] = confrontos[j + 1], confrontos[j]
