@@ -70,6 +70,12 @@ class Trie:
         # Chama o método privado _dfs para encontrar palavras
         self._dfs(self.root, current_word, words)
         return words
+    def lista_clubes(self):
+        clubes = []
+        for clube in self.find_words():
+            clubes.append(clube)
+        clubes.sort()
+        return clubes
 
     #=============================================
     # - Método privado _dfs para encontrar palavras

@@ -32,10 +32,10 @@ def get_indices_confrontos(equipe_a:str, equipe_b:str, arvore_clubes:TrieTree):
   indices_em_comum = set(indices_a) & set(indices_b)
 
   return indices_em_comum
-#====================================
+#==========================================
 # Função que retorna lista De Instâncias
 # de Partidas entre dois times
-#====================================
+#==========================================
 def get_confrontos(equipe_a:str, equipe_b:str, arvore_clubes:TrieTree):
   confontros_indices = get_indices_confrontos(equipe_a, equipe_b,arvore_clubes)
   confrontos = []
@@ -47,6 +47,26 @@ def get_confrontos(equipe_a:str, equipe_b:str, arvore_clubes:TrieTree):
       confrontos.append(confronto)
   file_partidas.close()
   return confrontos
+
+
+#==========================================
+# Função que retorna lista De Instâncias
+# de Partidas entre dois times
+#==========================================
+def get_todas_partidas(equipe:str):
+    file_indice = open(f'./indices_arquivos/indices_{equipe}.bin', 'rb')
+    indices_equipe = pickle.load(file_indice)
+
+    confrontos = []
+    with open(f'./arquivos/partidas.bin', 'rb') as file_partidas:
+        for posicao in indices_equipe:
+            file_partidas.seek(posicao)
+            confronto = pickle.load(file_partidas)
+            #confronto.show()
+            confrontos.append(confronto)
+    file_partidas.close()
+    
+    return confrontos
 
 
 #================================================================
@@ -63,4 +83,32 @@ def resultados(confrontos):
 
     return resultados
 
-  
+#================================================================
+# Dados Arena do Grêmio vs Olímpico Monumental
+#================================================================
+def get_arena_vs_olimpico(): 
+    partidas_gremio = get_todas_partidas('Gremio')
+    partidas_arena = {'Vitorias': 0, 'Empates': 0, 'Derrotas': 0}
+    partidas_olimpico = {'Vitorias': 0, 'Empates': 0, 'Derrotas': 0}
+
+    for partida in partidas_gremio:
+        if partida.mandante == 'Gremio':
+
+            if partida.estadio == 'Arena do Grêmio':
+                if partida.vencedor == 'Gremio':
+                    partidas_arena['Vitorias'] = partidas_arena['Vitorias'] + 1 
+                elif partida.vencedor == 'Empate':
+                    partidas_arena['Empates'] = partidas_arena['Vitorias'] + 1 
+                else:
+                    partidas_arena['Derrotas'] = partidas_arena['Derrotas'] + 1 
+                
+
+            if partida.estadio == 'Olímpico':
+                if partida.vencedor == 'Gremio':
+                    partidas_olimpico['Vitorias'] = partidas_olimpico['Vitorias'] + 1 
+                elif partida.vencedor == 'Empate':
+                    partidas_olimpico['Empates'] = partidas_olimpico['Vitorias'] + 1 
+                else:
+                    partidas_olimpico['Derrotas'] = partidas_olimpico['Derrotas'] + 1 
+
+    return partidas_arena, partidas_olimpico

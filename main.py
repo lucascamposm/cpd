@@ -16,9 +16,7 @@ from operations import *
 #=============================================
 # comando para instalar bibliotecas:  
 # pip install -r requirements.txt
-#
 #=============================================
-
 
 
 
@@ -83,26 +81,39 @@ def cria_binarios():
     return print('Arquivos Binários Criados com Sucesso')
 
 
-
 #====================================================================
 # Carrega Confrontos
 #====================================================================
-try: 
-    arvore_clubes = carrega_trie()
-    grenais = get_confrontos('Gremio', 'Internacional',arvore_clubes)
 
-except Exception:
-    cria_binarios()
-#for grenal in grenais:
-  #grenal.show()
+def main():
+    #====================================================================
+    # Grenais
+    #====================================================================
+    try: 
+        arvore_clubes = carrega_trie()
+        grenais = get_confrontos('Gremio', 'Internacional',arvore_clubes)
 
-
-
-
-
-#====================================================================
-# MENU
-#====================================================================
-print_msg(f'Resultados Grenais: {resultados(grenais)}')
+    except Exception:
+        cria_binarios()
+    #    
+    print_msg(f'Resultados Grenais: {resultados(grenais)}')
 
 
+    #===================================================================
+    # ARENA VS OLIMPICO
+    #==================================================================
+    insira_tecla_continuar()
+    os.system('cls')
+    partidas_arena, partidas_olimpico = get_arena_vs_olimpico()
+    print_msg(f'Aproveitamento da Arena   : {partidas_arena}')
+    print_msg(f'Aproveitamento da Olimpico:{partidas_olimpico}')
+
+    #===================================================================
+    # Lista Clubes
+    #==================================================================
+    insira_tecla_continuar()
+    os.system('cls')
+    print_clubes(arvore_clubes)
+
+if __name__ == "__main__":
+    main()

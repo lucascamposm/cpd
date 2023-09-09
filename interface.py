@@ -29,10 +29,7 @@ st.text('  Por Lucas C. Machado & Nicolas Kneip')
 #====================================================================
 
 arvore_clubes = carrega_trie()
-clubes = []
-for clube in arvore_clubes.find_words():
-    clubes.append(clube)
-clubes.sort()
+clubes = arvore_clubes.lista_clubes()
 
 
 #====================================================================
@@ -57,9 +54,6 @@ if button_clube_a:
 #==================================================================================
 # Load partidas
 #==================================================================================
-
-# Exemplo de uso da função
-arvore_clubes = carrega_trie()
 confrontos = get_confrontos('Gremio', 'Internacional',arvore_clubes)
 
 

@@ -44,6 +44,9 @@ def transform():
     #===============================
     df = pd.read_csv("CSVs/campeonato-brasileiro-full.csv")
 
+
+   
+
     #==============================================
     # Trocar "-" por "Empate" na coluna 'Vencedor'
     #==============================================
@@ -77,6 +80,11 @@ def transform():
     #==============================================
     # Observação: aqui se usa ___".index"___ pois a ideia eh remover os valores especificos
     df = df.drop(df[df.ano < 2003].index)
+
+    #==============================================
+    # Vários Estádios estão com '\xa0' no inicio
+    #==============================================
+    df['estadio'] = df['estadio'].str.replace('\xa0', '')
 
     #==============================================================================
     # df_mandante recebe df que estava sendo trabalhado até então
@@ -185,3 +193,16 @@ def aux_print_linha(tamanho_linha):
     for i in range(tamanho_linha): 
         print("=",end="")
     print()
+
+#=============================================
+# imprime todos clubes disponiveis na tela
+#=============================================
+def print_clubes(arvore_clubes):
+    arvore_clubes
+    clubes = arvore_clubes.lista_clubes()
+    print_msg(f'Clubes: ')
+    for i in range(0, len(clubes), 5):
+        for j in range(5):
+            if i + j < len(clubes):
+                print(f"[{i + j:02}] - {clubes[i + j]:15}", end="\t")
+        print('')  # Pausa a cada grupo de 5 clubes

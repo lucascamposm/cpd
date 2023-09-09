@@ -34,7 +34,7 @@ class Partida:
 #================================================================
 # Classe Partidas
 #================================================================
-class Partidas:
+class Lista_de_Partidas:
     def __init__(self):
         self.partidas = []
     #------------------
