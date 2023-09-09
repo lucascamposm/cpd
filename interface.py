@@ -5,12 +5,10 @@ import matplotlib.pyplot as plt
 
 from Partidas import *
 from TrieTree import *  
-from binaries_functions import *
+from binary_functions import *
 from operations import * 
 
 from plots import * 
-
-
 
 #====================================================================
 # HEADER

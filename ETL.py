@@ -1,7 +1,6 @@
 import requests 
 import pandas as pd
-import numpy as np
-import pickle 
+import os
 
 from Partidas import *
 from TrieTree import *
@@ -157,3 +156,32 @@ def get_clubes(df):
     return clubes
 
 
+#=============================================
+# Funcoes Auxiliares
+#=============================================
+
+def insira_tecla_continuar():
+    print("\nInsira uma tecla para continuar...",end="")
+    enter_input()
+
+def limpar_tela():
+    if platform.system() == "Windows":
+        os.system('cls')
+    else:
+        os.system('clear')
+
+def enter_input():
+    entrada = input('\n[input]: ')
+    return entrada
+def print_msg(mensagem, insira_tecla_continuar=None):
+    frase = (f"|                 {mensagem}                 |")
+    aux_print_linha(len(frase))  #linha com "========"
+    print(frase) #print da msg 
+    aux_print_linha(len(frase))
+    if insira_tecla_continuar is not None:
+        insira_tecla_continuar()
+
+def aux_print_linha(tamanho_linha):
+    for i in range(tamanho_linha): 
+        print("=",end="")
+    print()
