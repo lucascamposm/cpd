@@ -74,14 +74,3 @@ if st.session_state.clicked:
     confrontos = get_confrontos(clube_b, clube_a,arvore_clubes)
     resultados = resultados(confrontos)
     plot_grenal_st(resultados)
-
-#==================================================================================
-# GRAFICO GRENAIS 
-#==================================================================================
-
-
-grenais = get_confrontos('Gremio', 'Internacional',arvore_clubes)
-
-
-
-
