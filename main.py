@@ -11,7 +11,7 @@ from equipes import *
 from TrieTree import *
 
 
-from  getBinaries import * 
+from  binaries_functions import * 
 from operations import * 
 
 #=============================================
@@ -65,7 +65,7 @@ with open(f"./indices_arquivos/trie_clubes.bin", "rb") as arquivo:
 arquivo.close()
 
 #====================================================================
-# Indice - Colorado
+# Carrega Confrontos
 #====================================================================
 arvore_clubes = carrega_trie()
 grenais = get_confrontos('Gremio', 'Internacional',arvore_clubes)
@@ -74,19 +74,9 @@ grenais = get_confrontos('Gremio', 'Internacional',arvore_clubes)
   #grenal.show()
 
 
-
-
 #====================================================================
 # MENU
 #====================================================================
 
 print(resultados(grenais))
 
-
-def menu(): 
-    x = 1
-    while x != 0: 
-        print('Digite: \n')
-        print('[1] Para ver todos os grenais')
-        print('[0] para sair')
-        x = input('[input]...  ')
