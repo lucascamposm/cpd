@@ -2,11 +2,6 @@ import pickle
 import TrieTree
 import Partidas
 
-#=============================================
-# Pesquisar Time na árvore: 
-#=============================================
-
-
 
 #=====================================
 # Função auxiliar que retorna indices 
@@ -67,6 +62,23 @@ def get_todas_partidas(equipe:str):
     file_partidas.close()
     
     return confrontos
+
+#================================================================
+# Lista todos Adversários 
+# Por exemplo: Grêmio já enfrentou Flamengo, Bragantino, etc.
+# porém hipoteticamente talvez nunca tenha enfrentado o time AAA
+# Então, para evitar erros é importante ter esta informação
+#================================================================
+def lista_adversarios(equipe:str):
+    confrontos = get_todas_partidas(equipe)
+    adversarios = set()
+
+    for confronto in confrontos: 
+        time_a, time_b = confronto.get_times # 
+        adversario = time_a if time_a != equipe else time_b
+        adversarios.add(adversario)
+        
+    return adversarios
 
 
 #================================================================

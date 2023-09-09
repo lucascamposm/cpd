@@ -28,7 +28,6 @@ def cria_bin_partidas(lista_de_partidas, indices: dict[str, list]) -> dict[str, 
     return indices
 
 
-
 #=============================================
 #Insere clubes - Trie 
 #=============================================
@@ -46,7 +45,6 @@ def create_trie(clubes):
         arquivo.close()
 
     return indices
-
 
 
 #====================================================================
@@ -68,10 +66,32 @@ def salvar_indices(indices:dict):
 # CARREGA TRIE 
 #===================================================================
 #Carrega Árvore Trie de Arquivos
-def carrega_trie():
-    with open(f"./indices_arquivos/trie_clubes.bin", "rb") as arquivo:
+def carrega_trie(clube=None):
+    if clube is not None: 
+        arquivo_target = (f"./adversarios/{clube}.bin")
+    else:
+        arquivo_target = (f"./indices_arquivos/trie_clubes.bin")
+    with open(arquivo_target, "rb") as arquivo:
         clubes_trie = pickle.load(arquivo)
         arquivo.close()
     return clubes_trie
 
 
+#=============================================
+# Cria arquivo binário com a árvore Trie 
+# que representa os adversários do Clube
+#=============================================
+def create_trie_adversarios(adversarios, equipe):
+    indices = {}
+
+    arv = Trie()
+    for adversario in adversarios:
+        arv.insert(adversario)
+        indices[adversario] = []
+
+    #print(arv.starts_with('F'))  
+    with open(f"./adversarios/{equipe}.bin", "wb") as arquivo:
+        pickle.dump(arv,arquivo)
+        arquivo.close()
+
+    return print(f'Arquivo Bin  criado com sucesso! -> {equipe} ')

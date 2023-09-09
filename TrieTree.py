@@ -74,7 +74,16 @@ class Trie:
         clubes = []
         for clube in self.find_words():
             clubes.append(clube)
-        clubes.sort()
+        
+        #Ordenação por Insertion Sort
+        for i in range(1, len(clubes)):
+            key = clubes[i]
+            j = i - 1
+            while j >= 0 and key < clubes[j]:
+                clubes[j + 1] = clubes[j]
+                j -= 1
+            clubes[j + 1] = key
+
         return clubes
 
     #=============================================
